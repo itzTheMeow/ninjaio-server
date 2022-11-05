@@ -7,7 +7,7 @@ import Server from "./Server";
 import GameStatus from "./GameStatus";
 import PlayerController from "./PlayerController";
 import { Base62Decode } from "../utils/Base62";
-import { MAP } from "./MAP";
+import { MAP, MAP2 } from "./MAP";
 
 interface Packet {
   type?: string;
@@ -130,7 +130,11 @@ export default class Player {
     });
     this.send({
       t: Protocol.Game.UPDATE,
-      d: MAP,
+      d: MAP.filter((m) => !m.player),
+    });
+    this.send({
+      t: Protocol.Game.UPDATE,
+      d: MAP2.filter((m) => !m.player),
     });
   }
 
