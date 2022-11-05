@@ -1,19 +1,24 @@
-import { decompressFromUint8Array } from "lz-string";
+import { compressToUint8Array, decompressFromUint8Array } from "lz-string";
 import Protocol from "./Protocol";
 
 // not gonna unminify this honestly
 const ClientCompression = {
   SendBuffer: new Uint8Array(2048),
-  compress: function (a) {
+  compress: function (a, reconstruct = true) {
     a = JSON.parse(JSON.stringify(a));
-    if (!a.t) {
+    if (reconstruct && !a.t) {
       a.data = JSON.parse(JSON.stringify(a));
       a.type = Object.values(Protocol.Session).includes(a.type) ? Protocol.SESSION : Protocol.GAME;
     }
+    const isBin = a.t == Protocol.Game.UPDATE;
     let b = JSON.stringify(a),
       c = ClientCompression.SendBuffer.subarray(0, b.length + 1);
     c[0] = a.t ? 1 : 0;
-    for (let d = 1, e = b.length; d < e + 1; d++) c[d] = b.charCodeAt(d - 1);
+    if (isBin) {
+      return new Uint8Array([128, ...compressToUint8Array(JSON.stringify(a.d))]);
+    } else {
+      for (let d = 1, e = b.length; d < e + 1; d++) c[d] = b.charCodeAt(d - 1);
+    }
     return c;
   },
   decompress: function (a) {
