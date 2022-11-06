@@ -125,6 +125,27 @@ export default class Player {
       },
     });
     this.send({
+      t: Protocol.Game.STATUS,
+      d: {
+        t: GameStatus.Player.JOIN,
+        s: {
+          sid: this.sid,
+          name: "Ninja930 (guest)",
+          clan_id: -1,
+          clan_name: "",
+          guest: true,
+          title: "Guest",
+          level: 1,
+          skill: 0,
+          premium: true,
+          customization: {},
+          type: "guest",
+          local: true,
+          team: 0,
+        },
+      },
+    });
+    this.send({
       t: Protocol.Game.INFO,
       msg: "OwO",
     });
@@ -135,6 +156,75 @@ export default class Player {
     this.send({
       t: Protocol.Game.UPDATE,
       d: MAP2.filter((m) => !m.player),
+    });
+    this.send({
+      t: Protocol.Game.UPDATE,
+      d: [
+        {
+          "": 1,
+          id: "rk",
+          p: {
+            x: -62.35766666666667,
+            y: -20.172333333333334,
+            vx: 0,
+            vy: 0,
+            j: 0,
+            fx: 0,
+            fy: 0,
+            type: 2,
+            r: 1.5707963267948966,
+            gi: -1694,
+            prefab: 4,
+            continuous: true,
+            id: "rk",
+            ragdoll: {
+              id: {
+                head: "rk_head",
+                armrightlower: "rk_armrightlower",
+                armrightupper: "rk_armrightupper",
+                torsoupper: "rk_torsoupper",
+                torsolower: "rk_torsolower",
+                armleftlower: "rk_armleftlower",
+                armleftupper: "rk_armleftupper",
+                legrightlower: "rk_legrightlower",
+                legrightupper: "rk_legrightupper",
+                legleftlower: "rk_legleftlower",
+                legleftupper: "rk_legleftupper",
+              },
+            },
+            z: 16.314181684249878,
+            a: {
+              "0": 0,
+              "22": 0,
+              _: false,
+            },
+          },
+          sharedState: [
+            {
+              id: "rk",
+              s: 103,
+              t: "i39",
+              "": 1,
+            },
+            {
+              id: "rk",
+              s: 104,
+              t: "i20",
+              "": 1,
+            },
+          ],
+          player: 1,
+          team: 1,
+          sid: this.sid,
+          name: "Ninja47 (guest)",
+          z: 16.314181684249878,
+          a: {
+            "0": 0,
+            "22": 0,
+            _: false,
+          },
+        },
+      ],
     });
   }
 
